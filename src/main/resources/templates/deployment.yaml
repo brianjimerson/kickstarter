@@ -1,0 +1,26 @@
+apiVersion: [(${deployment.kind.apiVersion})]
+kind: [(${deployment.kind.kind})]
+metadata:
+  name: [(${deployment.metadata.name})]
+  [# th:if="${deployment.metadata.namespace}"]namespace: [(${deployment.metadata.namespace})][/]
+  labels:
+    app: [(${deployment.metadata.name})]
+spec:
+  replicas: [(${deployment.spec.replicas} ?: 1)]
+  strategy:
+    type: [(${deployment.spec.deploymentStrategy.value} ?: RollingUpdate)]
+  selector:
+    matchLabels:
+      app: [(${deployment.metadata.name})]
+  template:
+    metadata:
+      labels:
+        app: [(${deployment.metadata.name})]
+    spec:
+      serviceAccountName: [(${deployment.spec.pod.serviceAccountName} ?: default)]
+      containers:
+      - name: [(${deployment.spec.pod.containers[0].name})]
+        image: [(${deployment.spec.pod.containers[0].image})]
+        ports:
+        - containerPort: [(${deployment.spec.pod.containers[0].port})]
+        imagePullPolicy: [(${deployment.spec.pod.containers[0].imagePullPolicy.value} ?: Always)]

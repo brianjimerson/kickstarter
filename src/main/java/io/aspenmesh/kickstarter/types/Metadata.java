@@ -1,4 +1,4 @@
-package io.aspenmesh.kickstarter.type;
+package io.aspenmesh.kickstarter.types;
 
 import java.util.HashMap;
 import java.util.Map;

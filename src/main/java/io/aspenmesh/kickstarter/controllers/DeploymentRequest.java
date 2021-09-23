@@ -1,4 +1,4 @@
-package io.aspenmesh.kickstarter.controller;
+package io.aspenmesh.kickstarter.controllers;
 
 public class DeploymentRequest {
 

@@ -1,4 +1,4 @@
-package io.aspenmesh.kickstarter.controller;
+package io.aspenmesh.kickstarter.controllers;
 
 import java.io.ByteArrayOutputStream;
 import java.io.PrintWriter;
@@ -15,13 +15,13 @@ import org.springframework.web.bind.annotation.RestController;
 import org.thymeleaf.TemplateEngine;
 import org.thymeleaf.context.Context;
 
-import io.aspenmesh.kickstarter.type.Container;
-import io.aspenmesh.kickstarter.type.Deployment;
-import io.aspenmesh.kickstarter.type.ImagePullPolicy;
-import io.aspenmesh.kickstarter.type.Kind;
-import io.aspenmesh.kickstarter.type.Metadata;
-import io.aspenmesh.kickstarter.type.PodSpec;
-import io.aspenmesh.kickstarter.type.Deployment.DeploymentStrategy;
+import io.aspenmesh.kickstarter.types.Container;
+import io.aspenmesh.kickstarter.types.Deployment;
+import io.aspenmesh.kickstarter.types.ImagePullPolicy;
+import io.aspenmesh.kickstarter.types.Kind;
+import io.aspenmesh.kickstarter.types.Metadata;
+import io.aspenmesh.kickstarter.types.PodSpec;
+import io.aspenmesh.kickstarter.types.Deployment.DeploymentStrategy;
 
 @RestController
 public class DeploymentController {

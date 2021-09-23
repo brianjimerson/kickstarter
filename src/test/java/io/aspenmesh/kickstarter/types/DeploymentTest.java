@@ -1,4 +1,4 @@
-package io.aspenmesh.kickstarter.type;
+package io.aspenmesh.kickstarter.types;
 
 import java.io.PrintWriter;
 import java.util.ArrayList;
@@ -11,7 +11,7 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.thymeleaf.TemplateEngine;
 import org.thymeleaf.context.Context;
 
-import io.aspenmesh.kickstarter.type.Deployment.DeploymentStrategy;
+import io.aspenmesh.kickstarter.types.Deployment.DeploymentStrategy;
 
 @SpringBootTest
 public class DeploymentTest {

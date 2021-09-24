@@ -8,7 +8,7 @@ metadata:
 spec:
   replicas: [(${deployment.spec.replicas} ?: 1)]
   strategy:
-    type: [(${deployment.spec.deploymentStrategy.value} ?: RollingUpdate)]
+    type: [(${deployment.spec.deploymentStrategy} ? deployment.spec.deploymentStrategy.value : RollingUpdate)]
   selector:
     matchLabels:
       app: [(${deployment.metadata.name})]
@@ -23,4 +23,4 @@ spec:
         image: [(${deployment.spec.pod.containers[0].image})]
         ports:
         - containerPort: [(${deployment.spec.pod.containers[0].port})]
-        imagePullPolicy: [(${deployment.spec.pod.containers[0].imagePullPolicy.value} ?: Always)]
+        imagePullPolicy: [(${deployment.spec.pod.containers[0].imagePullPolicy} ? deployment.spec.pod.containers[0].imagePullPolicy.value : Always)]

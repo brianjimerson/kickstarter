@@ -1,0 +1,13 @@
+apiVersion: [(${service.kind.apiVersion})]
+kind: [(${service.kind.kind})]
+metadata:
+  name: [(${service.metadata.name})]
+  [# th:if="${service.metadata.namespace}"]namespace: [(${service.metadata.namespace})][/]
+  labels:
+    app: [(${service.metadata.name})]
+spec:
+  ports:
+  - port: [(${service.spec.port})]
+    name: http
+  selector:
+    app: [(${service.metadata.name})]

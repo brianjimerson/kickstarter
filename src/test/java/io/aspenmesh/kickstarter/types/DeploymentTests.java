@@ -14,7 +14,7 @@ import org.thymeleaf.context.Context;
 import io.aspenmesh.kickstarter.types.Deployment.DeploymentStrategy;
 
 @SpringBootTest
-public class DeploymentTest {
+public class DeploymentTests {
 
     @Autowired
     TemplateEngine templateEngine;

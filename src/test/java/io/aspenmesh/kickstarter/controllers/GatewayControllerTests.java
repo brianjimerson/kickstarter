@@ -15,28 +15,37 @@ import org.springframework.test.web.servlet.result.MockMvcResultMatchers;
 
 @SpringBootTest
 @AutoConfigureMockMvc
-public class ServiceControllerTests {
+public class GatewayControllerTests {
 
     @Autowired
     MockMvc mvc;
     
     @Test
-    public void testValidService() throws Exception {
-        ServiceRequest serviceRequest = new ServiceRequest();
-        serviceRequest.setName("test-service");
-        serviceRequest.setNamespace("test-ns");
-        serviceRequest.setServicePort(10000);
+    public void testValidDeployment() throws Exception {
+
+        GatewayRequest gatewayRequest = new GatewayRequest();
+        gatewayRequest.setName("test-gateway");
+        gatewayRequest.setNamespace("test-ns");
+        gatewayRequest.setCredentialName("test-credential");
+        gatewayRequest.setHost("www.test.com");
+        gatewayRequest.setHttpsRedirect(Boolean.FALSE);
+        gatewayRequest.setPort(80);
+        gatewayRequest.setPortName("test-http");
+        gatewayRequest.setProtocol("HTTP");
+        gatewayRequest.setServerName("test-server");
+        gatewayRequest.setTargetPort(80);
+        gatewayRequest.setTlsMode("SIMPLE");
 
         ObjectMapper objectMapper = new ObjectMapper();
 
         mvc.perform(
-            MockMvcRequestBuilders.post("/service")
+            MockMvcRequestBuilders.post("/gateway")
             .contentType(MediaType.APPLICATION_JSON)
-            .content(objectMapper.writeValueAsString(serviceRequest)))
+            .content(objectMapper.writeValueAsString(gatewayRequest)))
             .andDo(MockMvcResultHandlers.print())
             .andExpect(MockMvcResultMatchers.status().isOk())
             .andExpect(MockMvcResultMatchers.content().string(
-                Matchers.containsString("name: test-service")));
+                Matchers.containsString("name: test-gateway")));
     }
 
 }

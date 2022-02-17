@@ -4,10 +4,10 @@ public enum Kind {
     
     DEPLOYMENT("apps/v1", "Deployment"),
     SERVICE("v1", "Service"),
-    GATEWAY("networking.istio.io/v1alpha3", "Gateway"),
-    VIRTUAL_SERVICE("networking.istio.io/v1alpha3", "VirtualService"),
-    DESTINATION_RULE("networking.istio.io/v1alpha3", "DestinationRule"),
-    SERVICE_ENTRY("networking.istio.io/v1alpha3", "ServiceEntry"),
+    GATEWAY("networking.istio.io/v1beta1", "Gateway"),
+    VIRTUAL_SERVICE("networking.istio.io/v1beta1", "VirtualService"),
+    DESTINATION_RULE("networking.istio.io/v1beta1", "DestinationRule"),
+    SERVICE_ENTRY("networking.istio.io/v1beta1", "ServiceEntry"),
     AUTHORIZATION_POLICY("security.istio.io/v1beta1", "AuthorizationPolicy");
 
     private final String apiVersion;

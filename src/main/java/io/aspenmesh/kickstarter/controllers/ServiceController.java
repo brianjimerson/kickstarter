@@ -13,9 +13,8 @@ import org.springframework.web.bind.annotation.RestController;
 import org.thymeleaf.TemplateEngine;
 import org.thymeleaf.context.Context;
 
-import io.aspenmesh.kickstarter.types.Kind;
-import io.aspenmesh.kickstarter.types.Metadata;
 import io.aspenmesh.kickstarter.types.Service;
+import io.aspenmesh.kickstarter.util.RequestParser;
 
 @RestController
 public class ServiceController {
@@ -26,20 +25,8 @@ public class ServiceController {
     @PostMapping(value = "/service", produces = MediaType.TEXT_PLAIN_VALUE)
     public @ResponseBody byte[] getService(@RequestBody ServiceRequest serviceRequest) {
 
-        Kind kind = Kind.SERVICE;
-
-        Metadata metadata = new Metadata();
-        metadata.setName(serviceRequest.getName());
-        metadata.setNamespace(serviceRequest.getNamespace());
-
-        Service service = new Service();
-        service.setKind(kind);
-        service.setMetadata(metadata);
-
-        Service.ServiceSpec serviceSpec = service.new ServiceSpec();
-        serviceSpec.setPort(serviceRequest.getPort());
-        service.setSpec(serviceSpec);
-
+        Service service = RequestParser.parseServiceRequest(serviceRequest);
+        
         Context context = new Context(Locale.getDefault());
         context.setVariable("service", service);
         ByteArrayOutputStream out = new ByteArrayOutputStream();

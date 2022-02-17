@@ -1,0 +1,61 @@
+apiVersion: [(${deployment.kind.apiVersion})]
+kind: [(${deployment.kind.kind})]
+metadata:
+  name: [(${deployment.metadata.name})]
+  [# th:if="${deployment.metadata.namespace}"]namespace: [(${deployment.metadata.namespace})][/]
+  labels:
+    app: [(${deployment.metadata.name})]
+spec:
+  replicas: [(${deployment.spec.replicas} ?: 1)]
+  strategy:
+    type: [(${deployment.spec.deploymentStrategy} ? ${deployment.spec.deploymentStrategy.value} : RollingUpdate)]
+  selector:
+    matchLabels:
+      app: [(${deployment.metadata.name})]
+  template:
+    metadata:
+      labels:
+        app: [(${deployment.metadata.name})]
+    spec:
+      serviceAccountName: [(${deployment.spec.pod.serviceAccountName} ?: default)]
+      containers:
+      - name: [(${deployment.spec.pod.containers[0].name})]
+        image: [(${deployment.spec.pod.containers[0].image})]
+        ports:
+        - containerPort: [(${deployment.spec.pod.containers[0].port})]
+        imagePullPolicy: [(${deployment.spec.pod.containers[0].imagePullPolicy} ? ${deployment.spec.pod.containers[0].imagePullPolicy.value} : Always)]
+---
+apiVersion: [(${service.kind.apiVersion})]
+kind: [(${service.kind.kind})]
+metadata:
+  name: [(${service.metadata.name})]
+  [# th:if="${service.metadata.namespace}"]namespace: [(${service.metadata.namespace})][/]
+  labels:
+    app: [(${service.metadata.name})]
+spec:
+  ports:
+  - port: [(${service.spec.port})]
+    name: http
+  selector:
+    app: [(${service.metadata.name})]
+---
+apiVersion: [(${gateway.kind.apiVersion})]
+kind: [(${gateway.kind.kind})]
+metadata:
+  name: [(${gateway.metadata.name})]
+  [# th:if="${gateway.metadata.namespace}"]namespace: [(${gateway.metadata.namespace})][/]
+  labels:
+    app: [(${gateway.metadata.name})]
+spec:
+  selector:
+    matchLabels:
+      istio: ingressgateway
+  servers:
+  - port:
+      number: [(${gateway.spec.server.port.port})]
+      [# th:if="${gateway.spec.server.port.targetPort}"]targetPort: [(${gateway.spec.server.port.targetPort})][/]
+      name: [(${gateway.spec.server.port.name})]
+      protocol: [(${gateway.spec.server.port.protocol} ? ${gateway.spec.server.port.protocol.value} : TCP)]
+    [# th:if="${gateway.spec.server.name}"]name: [(${gateway.spec.server.name})][/]
+    hosts:
+    - [(${gateway.spec.server.hosts[0]})]

@@ -4,7 +4,7 @@ public class ServiceRequest {
 
     private String name;
     private String namespace;
-    private Integer port;
+    private Integer servicePort;
 
     public String getName() {
         return name;
@@ -22,12 +22,12 @@ public class ServiceRequest {
         this.namespace = namespace;
     }
 
-    public Integer getPort() {
-        return port;
+    public Integer getServicePort() {
+        return servicePort;
     }
     
-    public void setPort(Integer port) {
-        this.port = port;
+    public void setServicePort(Integer port) {
+        this.servicePort = port;
     }
 
     

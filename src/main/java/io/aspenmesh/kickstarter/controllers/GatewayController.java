@@ -13,25 +13,24 @@ import org.springframework.web.bind.annotation.RestController;
 import org.thymeleaf.TemplateEngine;
 import org.thymeleaf.context.Context;
 
-import io.aspenmesh.kickstarter.types.Deployment;
+import io.aspenmesh.kickstarter.types.Gateway;
 import io.aspenmesh.kickstarter.util.RequestParser;
 
 @RestController
-public class DeploymentController {
+public class GatewayController {
     
     @Autowired
     TemplateEngine templateEngine;
-    
-    @PostMapping(value = "/deployment", produces = MediaType.TEXT_PLAIN_VALUE)
-    public @ResponseBody byte[] getDeployment(@RequestBody DeploymentRequest deploymentRequest) {
 
-        Deployment deployment = RequestParser.parseDeploymentRequest(deploymentRequest);
-
+    @PostMapping(value = "/gateway", produces = MediaType.TEXT_PLAIN_VALUE)
+    public @ResponseBody byte[] getGateway(@RequestBody GatewayRequest gatewayRequest) {
+        
+        Gateway gateway = RequestParser.parseGatewayRequest(gatewayRequest);
         Context context = new Context(Locale.getDefault());
-        context.setVariable("deployment", deployment);
+        context.setVariable("gateway", gateway);
         ByteArrayOutputStream out = new ByteArrayOutputStream();
         PrintWriter writer = new PrintWriter(out);
-        templateEngine.process("deployment", context, writer);
+        templateEngine.process("gateway", context, writer);
         return out.toByteArray();
     }
 }

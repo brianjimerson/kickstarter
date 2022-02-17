@@ -31,7 +31,7 @@ public class DeploymentTests {
         Container container = new Container();
         container.setImage("docker.io/test");
         container.setName("test-container");
-        container.setImagePullPolicy(ImagePullPolicy.ALWAYS);
+        container.setImagePullPolicy(Container.ImagePullPolicy.ALWAYS);
         container.setPort(60000);
         List<Container> containers = new ArrayList<Container>();
         containers.add(container);

@@ -11,15 +11,15 @@ public class ApplicationRequest {
     private String deploymentStrategy;
     private Integer replicas;
     private Integer servicePort;
-    private String serverName;
+    private Boolean includeGateway;
     private Integer gatewayPort;
-    private Integer gatewayTargetPort;
     private String gatewayPortName;
     private String protocol;
     private String host;
     private Boolean httpsRedirect;
     private String tlsMode;
     private String credentialName;
+    private Boolean includeVirtualService;
 
     public String getName() {
         return name;
@@ -75,23 +75,17 @@ public class ApplicationRequest {
     public void setServicePort(Integer servicePort) {
         this.servicePort = servicePort;
     }
-    public String getServerName() {
-        return serverName;
+    public Boolean getIncludeGateway() {
+        return includeGateway;
     }
-    public void setServerName(String serverName) {
-        this.serverName = serverName;
+    public void setIncludeGateway(Boolean includeGateway) {
+        this.includeGateway = includeGateway;
     }
     public Integer getGatewayPort() {
         return gatewayPort;
     }
     public void setGatewayPort(Integer gatewayPort) {
         this.gatewayPort = gatewayPort;
-    }
-    public Integer getGatewayTargetPort() {
-        return gatewayTargetPort;
-    }
-    public void setGatewayTargetPort(Integer gatewayTargetPort) {
-        this.gatewayTargetPort = gatewayTargetPort;
     }
     public String getGatewayPortName() {
         return gatewayPortName;
@@ -129,6 +123,10 @@ public class ApplicationRequest {
     public void setCredentialName(String credentialName) {
         this.credentialName = credentialName;
     }
-
-
+    public Boolean getIncludeVirtualService() {
+        return includeVirtualService;
+    }
+    public void setIncludeVirtualService(Boolean includeVirtualService) {
+        this.includeVirtualService = includeVirtualService;
+    }
 }

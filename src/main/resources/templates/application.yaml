@@ -38,6 +38,7 @@ spec:
     name: http
   selector:
     app: [(${service.metadata.name})]
+[# th:if="${gateway}"]
 ---
 apiVersion: [(${gateway.kind.apiVersion})]
 kind: [(${gateway.kind.kind})]
@@ -53,9 +54,8 @@ spec:
   servers:
   - port:
       number: [(${gateway.spec.server.port.port})]
-      [# th:if="${gateway.spec.server.port.targetPort}"]targetPort: [(${gateway.spec.server.port.targetPort})][/]
       name: [(${gateway.spec.server.port.name})]
       protocol: [(${gateway.spec.server.port.protocol} ? ${gateway.spec.server.port.protocol.value} : TCP)]
-    [# th:if="${gateway.spec.server.name}"]name: [(${gateway.spec.server.name})][/]
     hosts:
     - [(${gateway.spec.server.hosts[0]})]
+[/]

@@ -27,6 +27,8 @@ public class ApplicationController {
     @PostMapping(value = "/application", produces = MediaType.TEXT_PLAIN_VALUE)
     public @ResponseBody byte[] getApplication(@RequestBody ApplicationRequest applicationRequest) {
 
+        Context context = new Context(Locale.getDefault());
+
         DeploymentRequest deploymentRequest = new DeploymentRequest();
         deploymentRequest.setContainerImage(applicationRequest.getContainerImage());
         deploymentRequest.setContainerImagePullPolicy(applicationRequest.getContainerImagePullPolicy());
@@ -36,33 +38,35 @@ public class ApplicationController {
         deploymentRequest.setNamespace(applicationRequest.getNamespace());
         deploymentRequest.setReplicas(applicationRequest.getReplicas());
         deploymentRequest.setServiceAccountName(applicationRequest.getName());
+        Deployment deployment = RequestParser.parseDeploymentRequest(deploymentRequest);
+        context.setVariable("deployment", deployment);
 
         ServiceRequest serviceRequest = new ServiceRequest();
         serviceRequest.setName(applicationRequest.getName());
         serviceRequest.setNamespace(applicationRequest.getNamespace());
         serviceRequest.setServicePort(applicationRequest.getServicePort());
-
-        GatewayRequest gatewayRequest = new GatewayRequest();
-        gatewayRequest.setCredentialName(applicationRequest.getCredentialName());
-        gatewayRequest.setHost(applicationRequest.getHost());
-        gatewayRequest.setHttpsRedirect(applicationRequest.getHttpsRedirect());
-        gatewayRequest.setName(applicationRequest.getName() + "-gw");
-        gatewayRequest.setNamespace(applicationRequest.getNamespace());
-        gatewayRequest.setPort(applicationRequest.getGatewayPort());
-        gatewayRequest.setPortName(applicationRequest.getGatewayPortName());
-        gatewayRequest.setServerName(applicationRequest.getServerName());
-        gatewayRequest.setProtocol(applicationRequest.getProtocol());
-        gatewayRequest.setTargetPort(applicationRequest.getGatewayTargetPort());
-        gatewayRequest.setTlsMode(applicationRequest.getTlsMode());
-        
-        Deployment deployment = RequestParser.parseDeploymentRequest(deploymentRequest);
         Service service = RequestParser.parseServiceRequest(serviceRequest);
-        Gateway gateway = RequestParser.parseGatewayRequest(gatewayRequest);
-
-        Context context = new Context(Locale.getDefault());
-        context.setVariable("deployment", deployment);
         context.setVariable("service", service);
-        context.setVariable("gateway", gateway);
+
+        if (Boolean.TRUE.equals(applicationRequest.getIncludeGateway())) {
+            GatewayRequest gatewayRequest = new GatewayRequest();
+            gatewayRequest.setCredentialName(applicationRequest.getCredentialName());
+            gatewayRequest.setHost(applicationRequest.getHost());
+            gatewayRequest.setHttpsRedirect(applicationRequest.getHttpsRedirect());
+            gatewayRequest.setName(applicationRequest.getName() + "-gw");
+            gatewayRequest.setNamespace(applicationRequest.getNamespace());
+            gatewayRequest.setPort(applicationRequest.getGatewayPort());
+            gatewayRequest.setPortName(applicationRequest.getGatewayPortName());
+            gatewayRequest.setProtocol(applicationRequest.getProtocol());
+            gatewayRequest.setTlsMode(applicationRequest.getTlsMode());
+            Gateway gateway = RequestParser.parseGatewayRequest(gatewayRequest);
+            context.setVariable("gateway", gateway);
+        }
+
+        if (Boolean.TRUE.equals(applicationRequest.getIncludeVirtualService())) {
+            //todo add virtual service
+        }
+        
         ByteArrayOutputStream out = new ByteArrayOutputStream();
         PrintWriter writer = new PrintWriter(out);
         templateEngine.process("application", context, writer);

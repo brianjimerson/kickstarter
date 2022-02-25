@@ -1,0 +1,16 @@
+apiVersion: [(${virtualService.kind.apiVersion})]
+kind: [(${virtualService.kind.kind})]
+metadata:
+  name: [(${virtualService.metadata.name})]
+  [# th:if="${virtualService.metadata.namespace}"]namespace: [(${virtualService.metadata.namespace})][/]
+spec:
+  hosts:
+  - [(${virtualService.spec.host})]
+  gateways:
+  - [(${virtualService.spec.gatewayName})]
+  http:
+  - route:
+    - destination:
+        host: [(${virtualService.spec.destination.host})]
+        port:
+          number: [(${virtualService.spec.destination.portNumber})]

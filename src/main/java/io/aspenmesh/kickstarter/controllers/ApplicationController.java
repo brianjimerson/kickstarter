@@ -16,6 +16,7 @@ import org.thymeleaf.context.Context;
 import io.aspenmesh.kickstarter.types.Deployment;
 import io.aspenmesh.kickstarter.types.Gateway;
 import io.aspenmesh.kickstarter.types.Service;
+import io.aspenmesh.kickstarter.types.VirtualService;
 import io.aspenmesh.kickstarter.util.RequestParser;
 
 @RestController
@@ -30,6 +31,7 @@ public class ApplicationController {
         Context context = new Context(Locale.getDefault());
 
         DeploymentRequest deploymentRequest = new DeploymentRequest();
+        deploymentRequest.setContainerName(applicationRequest.getContainerName());
         deploymentRequest.setContainerImage(applicationRequest.getContainerImage());
         deploymentRequest.setContainerImagePullPolicy(applicationRequest.getContainerImagePullPolicy());
         deploymentRequest.setContainerPort(applicationRequest.getContainerPort());
@@ -64,7 +66,15 @@ public class ApplicationController {
         }
 
         if (Boolean.TRUE.equals(applicationRequest.getIncludeVirtualService())) {
-            //todo add virtual service
+            VirtualServiceRequest virtualServiceRequest = new VirtualServiceRequest();
+            virtualServiceRequest.setName(applicationRequest.getName() + "-vs");
+            virtualServiceRequest.setNamespace(applicationRequest.getNamespace());
+            virtualServiceRequest.setHost(applicationRequest.getHost());
+            virtualServiceRequest.setGatewayName(applicationRequest.getName() + "-gw");
+            virtualServiceRequest.setDestinationHost(applicationRequest.getName());
+            virtualServiceRequest.setDestinationPortNumber(applicationRequest.getServicePort());
+            VirtualService virtualService = RequestParser.parseVirtualServiceRequest(virtualServiceRequest);
+            context.setVariable("virtualService", virtualService);
         }
         
         ByteArrayOutputStream out = new ByteArrayOutputStream();

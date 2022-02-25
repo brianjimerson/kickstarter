@@ -6,6 +6,7 @@ import java.util.List;
 import io.aspenmesh.kickstarter.controllers.DeploymentRequest;
 import io.aspenmesh.kickstarter.controllers.GatewayRequest;
 import io.aspenmesh.kickstarter.controllers.ServiceRequest;
+import io.aspenmesh.kickstarter.controllers.VirtualServiceRequest;
 import io.aspenmesh.kickstarter.types.Container;
 import io.aspenmesh.kickstarter.types.Deployment;
 import io.aspenmesh.kickstarter.types.Deployment.DeploymentSpec;
@@ -21,6 +22,7 @@ import io.aspenmesh.kickstarter.types.PodSpec;
 import io.aspenmesh.kickstarter.types.Protocol;
 import io.aspenmesh.kickstarter.types.Service;
 import io.aspenmesh.kickstarter.types.TLSMode;
+import io.aspenmesh.kickstarter.types.VirtualService;
 
 public class RequestParser {
     
@@ -115,5 +117,31 @@ public class RequestParser {
         gateway.setSpec(gatewaySpec);
 
         return gateway;
+    }
+
+    public static VirtualService parseVirtualServiceRequest(VirtualServiceRequest virtualServiceRequest) {
+        
+        Kind kind = Kind.VIRTUAL_SERVICE;
+
+        Metadata metadata = new Metadata();
+        metadata.setName(virtualServiceRequest.getName());
+        metadata.setNamespace(virtualServiceRequest.getNamespace());
+
+        VirtualService virtualService = new VirtualService();
+        virtualService.setKind(kind);
+        virtualService.setMetadata(metadata);
+
+        VirtualService.Destination destination = virtualService.new Destination();
+        destination.setHost(virtualServiceRequest.getDestinationHost());
+        destination.setPortNumber(virtualServiceRequest.getDestinationPortNumber());
+
+        VirtualService.VirtualServiceSpec virtualServiceSpec = virtualService.new VirtualServiceSpec();
+        virtualServiceSpec.setDestination(destination);
+        virtualServiceSpec.setGatewayName(virtualServiceRequest.getGatewayName());
+        virtualServiceSpec.setHost(virtualServiceRequest.getHost());
+        
+        virtualService.setSpec(virtualServiceSpec);
+
+        return virtualService;
     }
 }

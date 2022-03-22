@@ -1,0 +1,32 @@
+---
+apiVersion: v1
+kind: Namespace
+metadata:
+  name: kickstarter
+  labels:
+    name: kickstarter
+    istio-injection: enabled
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: kickstarter
+  namespace: kickstarter
+  labels:
+    app: kickstarter
+spec:
+  replicas: 3
+  selector:
+    matchLabels:
+      app: kickstarter
+  template:
+    metadata:
+      labels:
+        app: kickstarter
+    spec:
+      containers:
+      - name: kickstarter
+        image: docker.io/bjimerson/kickstarter:0.1.178
+        ports:
+        - containerPort: 8080
+        imagePullPolicy: Always

@@ -26,7 +26,7 @@ spec:
     spec:
       containers:
       - name: kickstarter
-        image: docker.io/bjimerson/kickstarter:0.1.178
+        image: docker.io/bjimerson/command-runner:0.1.12
         ports:
         - containerPort: 8080
         imagePullPolicy: Always

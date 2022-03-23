@@ -24,7 +24,7 @@ jobs:
             sed -i.bak -E "s/image:\ docker\.io\/bjimerson\/kickstarter([:][0-9]\.[0-9]+\.[0-9]+)?/image:\ docker\.io\/bjimerson\/command-runner:$TAG/" deploy/deployment.yaml
       - add_ssh_keys:
           fingerprints:
-            - "1e:13:63:ac:4b:db:41:64:20:3a:48:cc:87:18:61:e0"          
+            - "2d:cf:ce:82:88:83:7a:73:1a:94:d8:d3:cc:7a:70:7a"          
       - run:
           name: Build
           command: mvn -B -DskipTests clean package

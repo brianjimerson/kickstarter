@@ -36,7 +36,7 @@ jobs:
           command: |
             TAG=0.1.$CIRCLE_BUILD_NUM
             docker build -t harbor.pintobean.xyz/kickstarter/kickstarter:$TAG .
-            echo $DOCKER_PASSWORD | docker login -u $DOCKER_USER --password-stdin
+            echo $HARBOR_PASSWORD | docker login -u $HARBOR_USER --password-stdin
             docker push harbor.pintobean.xyz/kickstarter/kickstarter:$TAG
       - run:
           name: Push image tag

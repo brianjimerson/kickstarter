@@ -21,7 +21,7 @@ jobs:
           name: Update image tag
           command: |
             TAG=0.1.$CIRCLE_BUILD_NUM
-            sed -i.bak -E "s/image:\ docker\.io\/bjimerson\/command-runner([:][0-9]\.[0-9]+\.[0-9]+)?/image:\ docker\.io\/bjimerson\/command-runner:$TAG/" deploy/deployment.yaml
+            sed -i.bak -E "s/image:\ docker\.io\/bjimerson\/kickstarter([:][0-9]\.[0-9]+\.[0-9]+)?/image:\ docker\.io\/bjimerson\/command-runner:$TAG/" deploy/deployment.yaml
       - add_ssh_keys:
           fingerprints:
             - "1e:13:63:ac:4b:db:41:64:20:3a:48:cc:87:18:61:e0"          
@@ -35,9 +35,10 @@ jobs:
           name: Create and push image
           command: |
             TAG=0.1.$CIRCLE_BUILD_NUM
-            docker build -t bjimerson/kickstarter:$TAG .
+            echo $HARBOR_PASSWORD | docker login harbor.pintobean.xyz -u $HARBOR_USER --password-stdin
+            docker build -t harbor.pintobean.xyz/kickstarter/kickstarter:$TAG .
             echo $DOCKER_PASSWORD | docker login -u $DOCKER_USER --password-stdin
-            docker push bjimerson/kickstarter:$TAG
+            docker push harbor.pintobean.xyz/kickstarter/kickstarter:$TAG
       - run:
           name: Push image tag
           command: |
@@ -54,4 +55,4 @@ workflows:
       - push-image:
           requires:
             - build-and-test
-          context: jimerson-dockerhub-credentials
+          context: harbor-credentials

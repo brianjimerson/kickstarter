@@ -58,6 +58,12 @@ spec:
       protocol: [(${gateway.spec.server.port.protocol} ? ${gateway.spec.server.port.protocol.value} : TCP)]
     hosts:
     - [(${gateway.spec.server.hosts[0]})]
+[# th:if="${gateway.spec.server.port.protocol.value eq 'HTTPS' || gateway.spec.server.port.protocol.value eq 'TLS'}"]
+    tls:
+      mode: [(${gateway.spec.server.tls.mode} ? ${gateway.spec.server.tls.mode.value} : SIMPLE)]
+      credentialName: [(${gateway.spec.server.tls.credentialName})]
+[/]
+---
 [/]
 [# th:if="${virtualService}"]
 apiVersion: [(${virtualService.kind.apiVersion})]

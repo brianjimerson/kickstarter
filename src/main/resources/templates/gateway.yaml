@@ -18,3 +18,8 @@ spec:
     [# th:if="${gateway.spec.server.name}"]name: [(${gateway.spec.server.name})][/]
     hosts:
     - [(${gateway.spec.server.hosts[0]})]
+[# th:if="${gateway.spec.server.port.protocol.value eq 'HTTPS' || gateway.spec.server.port.protocol.value eq 'TLS'}"]
+    tls:
+      mode: [(${gateway.spec.server.tls.mode} ? ${gateway.spec.server.tls.mode.value} : SIMPLE)]
+      credentialName: [(${gateway.spec.server.tls.credentialName})]
+[/]

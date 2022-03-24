@@ -18,6 +18,10 @@ public enum TLSMode {
         return this.tlsMode;
     }
 
+    public String getValue() {
+        return this.tlsMode;
+    }
+
     public static TLSMode findByValue(String tlsMode) {
 
         for (TLSMode t : values()) {
